@@ -152,8 +152,11 @@ struct VideoLibraryCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            VideoThumbnailView(url: video.url)
+            // A fixed 16:10 base guarantees every card is the same size,
+            // regardless of selection state or thumbnail load progress.
+            Color.clear
                 .aspectRatio(16.0 / 10.0, contentMode: .fit)
+                .overlay { VideoThumbnailView(url: video.url) }
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay(alignment: .topLeading) {
                     if isCurrent {
@@ -192,6 +195,7 @@ struct VideoLibraryCard: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity)
         .padding(8)
         .background(
             RoundedRectangle(cornerRadius: 16)

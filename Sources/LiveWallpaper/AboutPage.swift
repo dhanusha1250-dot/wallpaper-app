@@ -28,7 +28,7 @@ struct AboutPage: View {
                     guideRow("film.stack", "Video Library",
                              "Add MP4 / MOV files or whole folders, then set any clip as your wallpaper.")
                     guideRow("hand.point.up.left.fill", "Interaction",
-                             "Toggle interactive mode in Settings. Interactive wallpapers draw above desktop icons.")
+                             "Toggle interactive mode in Settings. Wallpapers react to your cursor while desktop icons stay visible.")
                     guideRow("menubar.arrow.up.rectangle", "Menu bar",
                              "The ✦ menu-bar icon switches wallpapers and videos without opening this window.")
                 }

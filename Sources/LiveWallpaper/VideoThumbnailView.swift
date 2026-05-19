@@ -21,6 +21,7 @@ struct VideoThumbnailView: View {
                     .foregroundStyle(.white.opacity(0.4))
             }
         }
+        .clipped()
         .task(id: url.path) {
             image = nil
             failed = false

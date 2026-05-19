@@ -49,16 +49,18 @@ reopen it any time from the menu bar.
 
 ## How interaction works
 
-macOS draws desktop icons in a full-screen Finder window, so a wallpaper sitting
-*behind* the icons cannot receive clicks. The app handles this with two modes:
+The wallpaper window always sits at the desktop-picture layer, *below* the
+desktop icons — so your icons, folders and mounted disk images are never
+hidden.
 
-- **Interactive ON** — the wallpaper is drawn just above the desktop icons so it
-  receives cursor and click events. (Trade-off: it covers the icons.)
-- **Interactive OFF** — the wallpaper sits behind the icons as a pure ambient
-  background.
+When **interactive mode** is on, the app uses a passive global mouse monitor
+(`NSEvent.addGlobalMonitorForEvents`) to feed cursor and click data to the
+wallpaper. Because the monitor only *observes* events and never consumes them,
+desktop clicks still reach Finder normally while the scene reacts to you.
+When off, the wallpaper is a purely ambient background.
 
-Toggle this in the gallery or from the menu bar. The gallery previews are always
-interactive — hover and click them regardless of the mode.
+Toggle interactive mode in Settings or from the menu bar. The gallery previews
+are always interactive — hover them to try a scene.
 
 ## Project layout
 

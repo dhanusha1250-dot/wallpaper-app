@@ -31,7 +31,7 @@ final class MenuBarController: NSObject, NSMenuDelegate {
 
         // Animated scenes.
         let wallpapers = NSMenu()
-        for kind in WallpaperKind.allCases {
+        for kind in WallpaperKind.presets {
             let item = NSMenuItem(title: kind.title, action: #selector(pickKind(_:)), keyEquivalent: "")
             item.target = self
             item.representedObject = kind

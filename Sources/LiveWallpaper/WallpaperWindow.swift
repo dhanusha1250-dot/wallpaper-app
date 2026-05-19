@@ -1,22 +1,25 @@
 import AppKit
 import SwiftUI
 
-/// A borderless, full-screen window that sits at the desktop layer and hosts a
-/// SwiftUI wallpaper scene. One window is created per `NSScreen`.
+/// A borderless, full-screen window that sits at the desktop-picture layer
+/// (below the desktop icons) and hosts a SwiftUI wallpaper scene. One window
+/// is created per `NSScreen`.
+///
+/// The window never receives mouse events itself — interaction is driven by
+/// `DesktopMouseMonitor` — so desktop icons always stay visible and usable.
 final class WallpaperWindow: NSWindow {
     private(set) var currentKind: WallpaperKind?
-    private(set) var interactive = false
-
     let model = InteractionModel()
-    private let relay = InteractionRelayView()
+    /// The screen frame, in global coordinates, that this window covers.
+    let screenFrame: CGRect
+
     private var hosting: NSView?
 
-    /// Behind the desktop icons — pure ambient wallpaper.
+    /// Behind the desktop icons, above the static system wallpaper.
     static let ambientLevel = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.desktopWindow)))
-    /// Above the desktop icons so the scene can receive mouse events.
-    static let interactiveLevel = NSWindow.Level(rawValue: Int(CGWindowLevelForKey(.desktopIconWindow)) + 1)
 
     init(screen: NSScreen) {
+        screenFrame = screen.frame
         super.init(contentRect: screen.frame,
                    styleMask: .borderless,
                    backing: .buffered,
@@ -29,11 +32,7 @@ final class WallpaperWindow: NSWindow {
         collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle]
         level = Self.ambientLevel
         setFrame(screen.frame, display: true)
-
-        let container = NSView(frame: CGRect(origin: .zero, size: screen.frame.size))
-        contentView = container
-        relay.model = model
-        relay.autoresizingMask = [.width, .height]
+        contentView = NSView(frame: CGRect(origin: .zero, size: screen.frame.size))
     }
 
     required init?(coder: NSCoder) {
@@ -54,74 +53,5 @@ final class WallpaperWindow: NSWindow {
         host.autoresizingMask = [.width, .height]
         contentView!.addSubview(host)
         hosting = host
-
-        // The relay always stays on top so it captures pointer events.
-        relay.frame = contentView!.bounds
-        contentView!.addSubview(relay)
-    }
-
-    func setInteractive(_ on: Bool) {
-        interactive = on
-        relay.enabled = on
-        ignoresMouseEvents = !on
-        level = on ? Self.interactiveLevel : Self.ambientLevel
-        if !on {
-            model.cursor = nil
-            model.cursorActive = false
-        }
-    }
-}
-
-/// Transparent overlay that forwards pointer activity into an `InteractionModel`.
-/// Flipped so its coordinates line up with SwiftUI's top-left origin.
-final class InteractionRelayView: NSView {
-    weak var model: InteractionModel?
-    var enabled = false { didSet { refreshTracking() } }
-
-    private var trackingAreaRef: NSTrackingArea?
-
-    override var isFlipped: Bool { true }
-    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { enabled }
-    override func hitTest(_ point: NSPoint) -> NSView? { enabled ? super.hitTest(point) : nil }
-
-    override func updateTrackingAreas() {
-        super.updateTrackingAreas()
-        refreshTracking()
-    }
-
-    private func refreshTracking() {
-        if let trackingAreaRef {
-            removeTrackingArea(trackingAreaRef)
-            self.trackingAreaRef = nil
-        }
-        guard enabled else { return }
-        let area = NSTrackingArea(
-            rect: bounds,
-            options: [.activeAlways, .mouseMoved, .mouseEnteredAndExited, .inVisibleRect],
-            owner: self,
-            userInfo: nil)
-        addTrackingArea(area)
-        trackingAreaRef = area
-    }
-
-    override func mouseMoved(with event: NSEvent) { push(event) }
-    override func mouseDragged(with event: NSEvent) { push(event) }
-    override func mouseEntered(with event: NSEvent) { push(event) }
-
-    override func mouseExited(with event: NSEvent) {
-        model?.cursor = nil
-        model?.cursorActive = false
-    }
-
-    override func mouseDown(with event: NSEvent) {
-        let point = convert(event.locationInWindow, from: nil)
-        model?.click(at: point)
-        push(event)
-    }
-
-    private func push(_ event: NSEvent) {
-        let point = convert(event.locationInWindow, from: nil)
-        model?.cursor = point
-        model?.cursorActive = true
     }
 }

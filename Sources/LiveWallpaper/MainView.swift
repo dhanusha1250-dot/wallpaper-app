@@ -36,12 +36,14 @@ struct MainView: View {
 
     var body: some View {
         NavigationSplitView {
-            List(AppTab.allCases, id: \.self, selection: $tab) { item in
-                Label(item.title, systemImage: item.symbol)
-                    .padding(.vertical, 2)
+            List(selection: $tab) {
+                ForEach(AppTab.allCases) { item in
+                    Label(item.title, systemImage: item.symbol)
+                        .tag(item)
+                }
             }
             .listStyle(.sidebar)
-            .navigationSplitViewColumnWidth(min: 200, ideal: 220, max: 260)
+            .navigationSplitViewColumnWidth(min: 210, ideal: 230, max: 280)
             .safeAreaInset(edge: .top) {
                 HStack(spacing: 8) {
                     Image(systemName: "sparkles")

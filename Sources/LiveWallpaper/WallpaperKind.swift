@@ -13,6 +13,12 @@ enum WallpaperKind: String, CaseIterable, Identifiable, Codable {
 
     var id: String { rawValue }
 
+    /// The animated scenes shown in the gallery grid. The `.video` kind is
+    /// excluded — it is driven entirely by the Video Library.
+    static var presets: [WallpaperKind] {
+        allCases.filter { $0 != .video }
+    }
+
     var title: String {
         switch self {
         case .starfield: return "Cosmic Drift"

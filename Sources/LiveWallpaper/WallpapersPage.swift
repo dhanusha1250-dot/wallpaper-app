@@ -19,7 +19,7 @@ struct WallpapersPage: View {
                     columns: [GridItem(.adaptive(minimum: 300), spacing: 18)],
                     spacing: 18
                 ) {
-                    ForEach(WallpaperKind.allCases) { kind in
+                    ForEach(WallpaperKind.presets) { kind in
                         WallpaperCard(kind: kind,
                                       isSelected: settings.kind == kind,
                                       settings: settings)

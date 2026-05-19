@@ -25,7 +25,7 @@ struct SettingsPage: View {
 
             Section("Interaction") {
                 Toggle("Interactive on desktop", isOn: $settings.interactive)
-                Text("When on, wallpapers react to your cursor and clicks and are drawn above the desktop icons. When off, they stay behind the icons as a pure ambient background.")
+                Text("When on, wallpapers respond to your cursor and clicks anywhere on the desktop. Your desktop icons, folders and disk images stay fully visible and usable. When off, the wallpaper is a purely ambient background.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

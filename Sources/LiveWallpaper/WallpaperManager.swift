@@ -5,6 +5,7 @@ import Combine
 final class WallpaperManager {
     let settings: AppSettings
     private var windows: [WallpaperWindow] = []
+    private let mouseMonitor = DesktopMouseMonitor()
     private var cancellables = Set<AnyCancellable>()
 
     init(settings: AppSettings) {
@@ -34,22 +35,19 @@ final class WallpaperManager {
         windows = NSScreen.screens.map { screen in
             let window = WallpaperWindow(screen: screen)
             window.setKind(settings.kind, settings: settings)
-            window.setInteractive(settings.interactive)
             window.orderFront(nil)
             return window
         }
+        mouseMonitor.update(windows: windows, enabled: settings.interactive)
     }
 
-    /// Cheap reconciliation: only rebuild the scene when the wallpaper kind
-    /// changes. Speed / dim / pause are observed directly by the SwiftUI views.
+    /// Cheap reconciliation: rebuild the scene only when the wallpaper kind
+    /// changes. Speed / dim / pause are observed directly by the SwiftUI views;
+    /// interactivity is handled by the mouse monitor.
     private func reconfigure() {
-        for window in windows {
-            if window.currentKind != settings.kind {
-                window.setKind(settings.kind, settings: settings)
-            }
-            if window.interactive != settings.interactive {
-                window.setInteractive(settings.interactive)
-            }
+        for window in windows where window.currentKind != settings.kind {
+            window.setKind(settings.kind, settings: settings)
         }
+        mouseMonitor.update(windows: windows, enabled: settings.interactive)
     }
 }

@@ -57,16 +57,18 @@ current design in one important way:
 
 ### 2.4 Desktop-window behavior (review risk)
 
-The interactive mode draws the wallpaper *above* the desktop icons. App
-Review may flag a window that covers the desktop in a non-standard way
-(guideline 2.4.5 / 4.0 design). Mitigations:
+The wallpaper window sits at the desktop-picture layer, *below* the desktop
+icons, and interaction is driven by a **passive global mouse monitor**
+(`NSEvent.addGlobalMonitorForEvents`) rather than by raising the window. This
+keeps desktop icons fully visible and clickable, which removes the biggest
+review concern. Remaining items to verify:
 
-- Default to **ambient (non-interactive)** mode; make interactivity an
-  explicit opt-in with a clear explanation.
-- Never intercept clicks destined for other apps; release mouse events the
-  moment the pointer leaves the wallpaper.
-- Consider an "icons stay on top" compromise using accessibility APIs, or
-  document the trade-off prominently.
+- Confirm the global monitor needs no special entitlement (mouse-only
+  monitoring does not require Input Monitoring / Accessibility permission —
+  unlike keyboard monitoring). Re-test under the App Sandbox.
+- Keep interactive mode an explicit, clearly explained opt-in.
+- Make sure the desktop-level window cooperates correctly with Stage Manager,
+  Mission Control and multiple Spaces.
 
 ### 2.5 Energy & performance (a live wallpaper *must* get this right)
 
