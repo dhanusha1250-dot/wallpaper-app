@@ -17,7 +17,6 @@ struct FluidWallpaper: View {
                               speed: settings.speed,
                               paused: settings.isPaused)
                 system.draw(into: &context, size: size,
-                            cursor: model.cursor,
                             pulses: model.pulses,
                             now: timeline.date)
             }
@@ -111,7 +110,7 @@ final class FluidSystem {
     }
 
     func draw(into context: inout GraphicsContext, size: CGSize,
-              cursor: CGPoint?, pulses: [InteractionModel.Pulse], now: Date) {
+              pulses: [InteractionModel.Pulse], now: Date) {
         context.fill(
             Path(CGRect(origin: .zero, size: size)),
             with: .linearGradient(
@@ -140,16 +139,6 @@ final class FluidSystem {
                     center: blob.position,
                     startRadius: 0,
                     endRadius: blob.radius))
-        }
-
-        if let cursor {
-            let r: CGFloat = 130
-            field.fill(
-                Path(ellipseIn: CGRect(x: cursor.x - r, y: cursor.y - r,
-                                       width: r * 2, height: r * 2)),
-                with: .radialGradient(
-                    Gradient(colors: [Color.white.opacity(0.35), .clear]),
-                    center: cursor, startRadius: 0, endRadius: r))
         }
 
         context.drawRipples(pulses, now: now,

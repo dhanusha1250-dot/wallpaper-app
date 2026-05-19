@@ -135,17 +135,6 @@ final class StarfieldSystem {
                 startPoint: .zero,
                 endPoint: CGPoint(x: size.width, y: size.height)))
 
-        // Soft nebula glow following the cursor.
-        if let cursor {
-            context.fill(
-                Path(ellipseIn: CGRect(x: cursor.x - 240, y: cursor.y - 240,
-                                       width: 480, height: 480)),
-                with: .radialGradient(
-                    Gradient(colors: [Color(red: 0.5, green: 0.4, blue: 1.0).opacity(0.22),
-                                      .clear]),
-                    center: cursor, startRadius: 0, endRadius: 240))
-        }
-
         var glow = context
         glow.blendMode = .plusLighter
         for star in stars {

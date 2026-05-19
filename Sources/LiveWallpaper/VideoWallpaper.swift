@@ -77,7 +77,7 @@ struct VideoWallpaper: View {
             } else {
                 VideoPlaceholder()
             }
-            InteractiveGlowOverlay(model: model, paused: settings.isPaused)
+            ClickRippleOverlay(model: model, paused: settings.isPaused)
         }
     }
 }
@@ -105,25 +105,15 @@ private struct VideoPlaceholder: View {
     }
 }
 
-/// A subtle cursor spotlight + click ripples drawn over the video.
-private struct InteractiveGlowOverlay: View {
+/// Click ripples drawn over the video. A click is the video wallpaper's
+/// defined interaction; cursor movement leaves the footage untouched.
+private struct ClickRippleOverlay: View {
     @ObservedObject var model: InteractionModel
     let paused: Bool
 
     var body: some View {
         TimelineView(.animation(paused: paused)) { timeline in
             Canvas { context, _ in
-                if let cursor = model.cursor {
-                    var glow = context
-                    glow.blendMode = .plusLighter
-                    let r: CGFloat = 170
-                    glow.fill(
-                        Path(ellipseIn: CGRect(x: cursor.x - r, y: cursor.y - r,
-                                               width: r * 2, height: r * 2)),
-                        with: .radialGradient(
-                            Gradient(colors: [Color.white.opacity(0.16), .clear]),
-                            center: cursor, startRadius: 0, endRadius: r))
-                }
                 context.drawRipples(model.pulses, now: timeline.date,
                                     color: .white, maxRadius: 320, life: 1.6)
             }

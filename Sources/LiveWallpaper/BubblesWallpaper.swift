@@ -16,7 +16,7 @@ struct BubblesWallpaper: View {
                               pulses: model.pulses,
                               speed: settings.speed,
                               paused: settings.isPaused)
-                system.draw(into: &context, size: size, cursor: model.cursor)
+                system.draw(into: &context, size: size)
             }
         }
     }
@@ -122,7 +122,7 @@ final class BubbleSystem {
         }
     }
 
-    func draw(into context: inout GraphicsContext, size: CGSize, cursor: CGPoint?) {
+    func draw(into context: inout GraphicsContext, size: CGSize) {
         context.fill(
             Path(CGRect(origin: .zero, size: size)),
             with: .linearGradient(
@@ -170,16 +170,6 @@ final class BubbleSystem {
                             y: bubble.position.y - r * 0.55,
                             width: r * 0.5, height: r * 0.5)
             glow.fill(Path(ellipseIn: hl), with: .color(.white.opacity(0.55)))
-        }
-
-        if let cursor {
-            let r: CGFloat = 90
-            glow.fill(
-                Path(ellipseIn: CGRect(x: cursor.x - r, y: cursor.y - r,
-                                       width: r * 2, height: r * 2)),
-                with: .radialGradient(
-                    Gradient(colors: [Color.white.opacity(0.18), .clear]),
-                    center: cursor, startRadius: 0, endRadius: r))
         }
     }
 }

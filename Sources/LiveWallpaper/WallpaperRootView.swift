@@ -16,6 +16,7 @@ struct WallpaperRootView: View {
             case .neonGrid:  NeonGridWallpaper(model: model, settings: settings)
             case .bubbles:   BubblesWallpaper(model: model, settings: settings)
             case .orbs:      OrbsWallpaper(model: model, settings: settings)
+            case .parallax:  ParallaxWallpaper(model: model, settings: settings)
             case .video:     VideoWallpaper(model: model, settings: settings)
             }
             if settings.dim > 0 {

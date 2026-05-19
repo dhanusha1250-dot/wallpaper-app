@@ -9,6 +9,7 @@ enum WallpaperKind: String, CaseIterable, Identifiable, Codable {
     case neonGrid
     case bubbles
     case orbs
+    case parallax
     case video
 
     var id: String { rawValue }
@@ -27,6 +28,7 @@ enum WallpaperKind: String, CaseIterable, Identifiable, Codable {
         case .neonGrid:  return "Synthwave"
         case .bubbles:   return "Bubbles"
         case .orbs:      return "Lumina"
+        case .parallax:  return "Parallax Vista"
         case .video:     return "My Video"
         }
     }
@@ -39,6 +41,7 @@ enum WallpaperKind: String, CaseIterable, Identifiable, Codable {
         case .neonGrid:  return "Retro neon horizon"
         case .bubbles:   return "Rising soap bubbles"
         case .orbs:      return "Soft morphing gradient orbs"
+        case .parallax:  return "Layered scenery with depth"
         case .video:     return "Play your own MP4 or MOV"
         }
     }
@@ -51,6 +54,7 @@ enum WallpaperKind: String, CaseIterable, Identifiable, Codable {
         case .neonGrid:  return "grid"
         case .bubbles:   return "circle.circle"
         case .orbs:      return "circle.hexagongrid.fill"
+        case .parallax:  return "mountain.2.fill"
         case .video:     return "film.fill"
         }
     }
@@ -63,6 +67,7 @@ enum WallpaperKind: String, CaseIterable, Identifiable, Codable {
         case .neonGrid:  return Color(red: 1.0, green: 0.32, blue: 0.72)
         case .bubbles:   return Color(red: 0.42, green: 0.78, blue: 1.0)
         case .orbs:      return Color(red: 0.40, green: 0.86, blue: 0.90)
+        case .parallax:  return Color(red: 0.96, green: 0.58, blue: 0.40)
         case .video:     return Color(red: 0.45, green: 0.65, blue: 1.0)
         }
     }
@@ -75,6 +80,7 @@ enum WallpaperKind: String, CaseIterable, Identifiable, Codable {
         case .neonGrid:  return "The cursor lights up the grid · click for a pulse"
         case .bubbles:   return "The cursor pushes bubbles aside · click to pop them"
         case .orbs:      return "The cursor drags the nearest orb · click to ripple"
+        case .parallax:  return "Move the cursor to shift the scene through depth"
         case .video:     return "Pick any video file · click to send a ripple"
         }
     }

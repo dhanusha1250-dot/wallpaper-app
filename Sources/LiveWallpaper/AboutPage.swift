@@ -24,7 +24,7 @@ struct AboutPage: View {
 
                 VStack(alignment: .leading, spacing: 10) {
                     guideRow("sparkles", "Wallpapers",
-                             "Pick from six animated scenes. Each reacts to your cursor and clicks.")
+                             "Pick from seven animated scenes. Each defines its own cursor and click interaction.")
                     guideRow("film.stack", "Video Library",
                              "Add MP4 / MOV files or whole folders, then set any clip as your wallpaper.")
                     guideRow("hand.point.up.left.fill", "Interaction",

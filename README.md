@@ -7,13 +7,14 @@ scene on your desktop and ships a polished gallery for picking and tuning it.
 
 ## Features
 
-- **7 live wallpapers**, each fully interactive:
-  - **Cosmic Drift** — parallax starfield; the cursor is a gravity well, clicks scatter the stars.
+- **8 live wallpapers** — each defines its own deliberate cursor interaction:
+  - **Cosmic Drift** — starfield; the cursor is a gravity well, clicks scatter the stars.
   - **Aurora** — northern-lights curtains that bend toward the cursor; clicks ripple the sky.
   - **Lava Lamp** — drifting metaball blobs the cursor pulls; clicks spawn new blobs.
-  - **Synthwave** — a scrolling neon grid that lights up under the cursor.
+  - **Synthwave** — a scrolling neon grid whose lines light up under the cursor.
   - **Bubbles** — rising soap bubbles you can push aside and pop with a click.
   - **Lumina** — soft morphing gradient orbs; drag the nearest one with the cursor.
+  - **Parallax Vista** — a layered scenic vista whose depth layers shift as the cursor moves.
   - **My Video** — play your own **MP4 / MOV / M4V** (or any QuickTime-readable
     format) as a seamless looping background, with Fill / Fit / Stretch scaling
     and an optional muted-audio toggle.

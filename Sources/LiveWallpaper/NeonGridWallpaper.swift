@@ -75,7 +75,7 @@ struct NeonGridWallpaper: View {
         grid.blendMode = .plusLighter
         let vanishing = CGPoint(x: size.width / 2, y: horizon)
 
-        // Converging vertical lines.
+        // Converging vertical lines. Lines near the cursor's column light up.
         let columns = 26
         for i in -columns...columns {
             let spread = CGFloat(i) / CGFloat(columns)
@@ -83,10 +83,18 @@ struct NeonGridWallpaper: View {
             var line = Path()
             line.move(to: vanishing)
             line.addLine(to: CGPoint(x: bottomX, y: size.height))
-            grid.stroke(line, with: .color(cyan.opacity(0.35)), lineWidth: 1)
+            var opacity = 0.35
+            var width: CGFloat = 1
+            if let cursor {
+                let prox = max(0, 1 - abs(bottomX - cursor.x) / 220)
+                opacity += Double(prox) * 0.5
+                width += prox * 1.6
+            }
+            grid.stroke(line, with: .color(cyan.opacity(opacity)), lineWidth: width)
         }
 
-        // Horizontal lines scrolling toward the viewer.
+        // Horizontal lines scrolling toward the viewer. Rows near the cursor
+        // light up as it moves over the grid.
         let rows = 18
         let scroll = CGFloat(time.truncatingRemainder(dividingBy: 1.0))
         for i in 0..<rows {
@@ -95,18 +103,14 @@ struct NeonGridWallpaper: View {
             var line = Path()
             line.move(to: CGPoint(x: 0, y: y))
             line.addLine(to: CGPoint(x: size.width, y: y))
-            grid.stroke(line, with: .color(pink.opacity(0.5)), lineWidth: 1 + frac * 1.6)
-        }
-
-        // Cursor glow on the grid.
-        if let cursor {
-            let r: CGFloat = 170
-            grid.fill(
-                Path(ellipseIn: CGRect(x: cursor.x - r, y: cursor.y - r,
-                                       width: r * 2, height: r * 2)),
-                with: .radialGradient(
-                    Gradient(colors: [cyan.opacity(0.5), .clear]),
-                    center: cursor, startRadius: 0, endRadius: r))
+            var opacity = 0.5
+            var width = 1 + frac * 1.6
+            if let cursor {
+                let prox = max(0, 1 - abs(y - cursor.y) / 160)
+                opacity += Double(prox) * 0.5
+                width += prox * 2
+            }
+            grid.stroke(line, with: .color(pink.opacity(opacity)), lineWidth: width)
         }
 
         context.drawRipples(pulses, now: now, color: cyan,

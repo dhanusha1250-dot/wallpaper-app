@@ -11,7 +11,7 @@ See `APP_STORE_AND_MARKETING.md` for the full rationale behind §3–§4.
 
 ## 2. Functional testing
 
-- [ ] All 6 animated scenes render and react to cursor + clicks
+- [ ] All 7 animated scenes render and react to cursor + clicks
 - [ ] Video wallpaper plays, loops seamlessly, honors Fill / Fit / Stretch
 - [ ] Mute toggle works; audio behaves as expected (see note below)
 - [ ] Video library: add files, add folder (recursive), remove, rescan

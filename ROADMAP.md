@@ -37,12 +37,12 @@ Moderate-effort features that are highly demoable in marketing clips.
   cover, fog, and light warmth by temperature / time of day.
 - Add a manual override and a "use my location" privacy prompt.
 
-### 2.2 Parallax wallpapers (photo → depth)
-- Generate a depth map from a single photo via the Vision framework or a
-  bundled Core ML depth model.
-- Displace layers in Metal / SceneKit; shift with the cursor (interaction
-  plumbing already exists via `DesktopMouseMonitor`).
-- Ship with sample images; let users import their own photos.
+### 2.2 Parallax wallpapers
+- **Done:** the procedural "Parallax Vista" scene — layered scenery whose
+  depth layers shift with the cursor (and drift on their own).
+- **Next:** photo → parallax — generate a depth map from a user's photo via
+  the Vision framework or a bundled Core ML depth model, then displace the
+  image layers the same way.
 
 ### 2.3 Quality-of-life
 - Scheduling / playlists — rotate wallpapers on a timer or by time of day.
