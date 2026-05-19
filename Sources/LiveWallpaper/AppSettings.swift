@@ -9,6 +9,15 @@ final class AppSettings: ObservableObject {
     @Published var interactive: Bool { didSet { save() } }
     @Published var isPaused: Bool
 
+    /// Background-video settings (used by the `.video` wallpaper).
+    @Published var videoPath: String? { didSet { save() } }
+    @Published var videoFillMode: VideoFillMode { didSet { save() } }
+    @Published var videoMuted: Bool { didSet { save() } }
+
+    var videoURL: URL? {
+        videoPath.map { URL(fileURLWithPath: $0) }
+    }
+
     private let defaults = UserDefaults.standard
 
     init() {
@@ -17,6 +26,9 @@ final class AppSettings: ObservableObject {
         dim = defaults.object(forKey: Keys.dim) as? Double ?? 0.0
         interactive = defaults.object(forKey: Keys.interactive) as? Bool ?? true
         isPaused = false
+        videoPath = defaults.string(forKey: Keys.videoPath)
+        videoFillMode = VideoFillMode(rawValue: defaults.string(forKey: Keys.videoFillMode) ?? "") ?? .fill
+        videoMuted = defaults.object(forKey: Keys.videoMuted) as? Bool ?? true
     }
 
     private func save() {
@@ -24,6 +36,13 @@ final class AppSettings: ObservableObject {
         defaults.set(speed, forKey: Keys.speed)
         defaults.set(dim, forKey: Keys.dim)
         defaults.set(interactive, forKey: Keys.interactive)
+        defaults.set(videoFillMode.rawValue, forKey: Keys.videoFillMode)
+        defaults.set(videoMuted, forKey: Keys.videoMuted)
+        if let videoPath {
+            defaults.set(videoPath, forKey: Keys.videoPath)
+        } else {
+            defaults.removeObject(forKey: Keys.videoPath)
+        }
     }
 
     private enum Keys {
@@ -31,5 +50,8 @@ final class AppSettings: ObservableObject {
         static let speed = "wallpaper.speed"
         static let dim = "wallpaper.dim"
         static let interactive = "wallpaper.interactive"
+        static let videoPath = "wallpaper.videoPath"
+        static let videoFillMode = "wallpaper.videoFillMode"
+        static let videoMuted = "wallpaper.videoMuted"
     }
 }

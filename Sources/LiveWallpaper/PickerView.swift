@@ -62,6 +62,10 @@ struct PickerView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
+                if settings.kind == .video {
+                    videoControls
+                }
+
                 Divider()
 
                 Toggle("Interactive on desktop", isOn: $settings.interactive)
@@ -90,6 +94,43 @@ struct PickerView: View {
                     .foregroundStyle(.tertiary)
             }
             .padding(22)
+        }
+    }
+
+    private var videoControls: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Divider()
+            Text("Video Source")
+                .font(.headline)
+            Button {
+                if let url = VideoPicker.choose() {
+                    settings.videoPath = url.path
+                }
+            } label: {
+                Label("Choose Video…", systemImage: "folder.fill")
+            }
+            Text(settings.videoURL?.lastPathComponent ?? "No video selected")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .truncationMode(.middle)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Scaling").font(.caption)
+                Picker("", selection: $settings.videoFillMode) {
+                    ForEach(VideoFillMode.allCases) { mode in
+                        Text(mode.label).tag(mode)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+            }
+
+            Toggle("Mute audio", isOn: $settings.videoMuted)
+
+            Text("Supports MP4, MOV, M4V and other QuickTime-readable formats.")
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
         }
     }
 }

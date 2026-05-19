@@ -39,6 +39,11 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         wallpaperItem.submenu = wallpapers
         menu.addItem(wallpaperItem)
 
+        let chooseVideoItem = menu.addItem(withTitle: "Choose Background Video…",
+                                           action: #selector(chooseVideo),
+                                           keyEquivalent: "")
+        chooseVideoItem.target = self
+
         let interactive = menu.addItem(withTitle: "Interactive Mode",
                                        action: #selector(toggleInteractive),
                                        keyEquivalent: "")
@@ -67,4 +72,11 @@ final class MenuBarController: NSObject, NSMenuDelegate {
 
     @objc private func toggleInteractive() { settings.interactive.toggle() }
     @objc private func togglePause() { settings.isPaused.toggle() }
+
+    @objc private func chooseVideo() {
+        if let url = VideoPicker.choose() {
+            settings.videoPath = url.path
+            settings.kind = .video
+        }
+    }
 }

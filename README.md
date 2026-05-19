@@ -7,13 +7,16 @@ scene on your desktop and ships a polished gallery for picking and tuning it.
 
 ## Features
 
-- **6 live wallpapers**, each fully interactive:
+- **7 live wallpapers**, each fully interactive:
   - **Cosmic Drift** — parallax starfield; the cursor is a gravity well, clicks scatter the stars.
   - **Aurora** — northern-lights curtains that bend toward the cursor; clicks ripple the sky.
   - **Lava Lamp** — drifting metaball blobs the cursor pulls; clicks spawn new blobs.
   - **Synthwave** — a scrolling neon grid that lights up under the cursor.
   - **Bubbles** — rising soap bubbles you can push aside and pop with a click.
   - **Lumina** — soft morphing gradient orbs; drag the nearest one with the cursor.
+  - **My Video** — play your own **MP4 / MOV / M4V** (or any QuickTime-readable
+    format) as a seamless looping background, with Fill / Fit / Stretch scaling
+    and an optional muted-audio toggle.
 - **Gallery UI** with *live, hover-interactive previews* — try a wallpaper before you apply it.
 - Real-time controls: animation speed, dim, pause, and an interactive toggle.
 - **Menu-bar item** (✦) for switching wallpapers without opening the window.
@@ -68,7 +71,8 @@ Sources/LiveWallpaper/
   PickerView.swift                   Gallery UI
   MenuBarController.swift            Menu-bar item
   Support.swift                      Shared animation helpers
-  *Wallpaper.swift                   The six scenes (SwiftUI Canvas)
+  VideoWallpaper.swift               Looping video playback (AVFoundation)
+  *Wallpaper.swift                   The animated scenes (SwiftUI Canvas)
 ```
 
 Each scene is a SwiftUI `Canvas` driven by `TimelineView(.animation)`, with a
