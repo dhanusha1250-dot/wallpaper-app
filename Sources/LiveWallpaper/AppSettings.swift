@@ -31,6 +31,15 @@ final class AppSettings: ObservableObject {
         videoMuted = defaults.object(forKey: Keys.videoMuted) as? Bool ?? true
     }
 
+    func resetToDefaults() {
+        speed = 1.0
+        dim = 0.0
+        interactive = true
+        isPaused = false
+        videoFillMode = .fill
+        videoMuted = true
+    }
+
     private func save() {
         defaults.set(kind.rawValue, forKey: Keys.kind)
         defaults.set(speed, forKey: Keys.speed)

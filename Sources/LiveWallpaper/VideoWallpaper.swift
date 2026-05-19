@@ -28,17 +28,33 @@ enum VideoFillMode: String, CaseIterable, Identifiable {
     }
 }
 
-/// Shared file picker for choosing a background video.
+/// Shared file pickers for choosing background videos and folders.
 enum VideoPicker {
+    private static let contentTypes: [UTType] =
+        [.movie, .audiovisualContent, .video, .mpeg4Movie, .quickTimeMovie]
+
     static func choose() -> URL? {
+        chooseMultiple().first
+    }
+
+    static func chooseMultiple() -> [URL] {
         let panel = NSOpenPanel()
-        panel.title = "Choose a Background Video"
-        panel.prompt = "Use Video"
-        panel.allowsMultipleSelection = false
+        panel.title = "Add Background Videos"
+        panel.prompt = "Add"
+        panel.allowsMultipleSelection = true
         panel.canChooseDirectories = false
         panel.canChooseFiles = true
-        panel.allowedContentTypes = [.movie, .audiovisualContent, .video,
-                                     .mpeg4Movie, .quickTimeMovie]
+        panel.allowedContentTypes = contentTypes
+        return panel.runModal() == .OK ? panel.urls : []
+    }
+
+    static func chooseFolder() -> URL? {
+        let panel = NSOpenPanel()
+        panel.title = "Add a Folder of Videos"
+        panel.prompt = "Add Folder"
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
         return panel.runModal() == .OK ? panel.url : nil
     }
 }

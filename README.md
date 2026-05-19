@@ -17,7 +17,10 @@ scene on your desktop and ships a polished gallery for picking and tuning it.
   - **My Video** — play your own **MP4 / MOV / M4V** (or any QuickTime-readable
     format) as a seamless looping background, with Fill / Fit / Stretch scaling
     and an optional muted-audio toggle.
-- **Gallery UI** with *live, hover-interactive previews* — try a wallpaper before you apply it.
+- **Tabbed gallery UI** — *Wallpapers*, *Video Library*, *Settings*, and
+  *About* pages with a sidebar, and live, hover-interactive previews.
+- **Video Library** — save individual video files or whole folders of MP4s,
+  and switch to any saved clip at any time (also from the menu bar).
 - Real-time controls: animation speed, dim, pause, and an interactive toggle.
 - **Menu-bar item** (✦) for switching wallpapers without opening the window.
 - Multi-display aware — one wallpaper window per screen.
@@ -63,17 +66,24 @@ interactive — hover and click them regardless of the mode.
 Sources/LiveWallpaper/
   main.swift / AppDelegate.swift     App entry & lifecycle
   AppSettings.swift                  Persisted, observable settings
+  VideoLibrary.swift                 Saved videos + watched folders
   WallpaperKind.swift                Catalog of scenes
   WallpaperManager.swift             One desktop window per screen
   WallpaperWindow.swift              Desktop-level window + mouse relay
   InteractionModel.swift             Cursor / click state bridge
   WallpaperRootView.swift            Scene router
-  PickerView.swift                   Gallery UI
+  MainView.swift                     Tabbed gallery shell (sidebar)
+  WallpapersPage.swift               Scene gallery grid
+  VideoLibraryPage.swift             Video library management
+  SettingsPage.swift / AboutPage.swift   Settings & About tabs
+  VideoThumbnailView.swift           Video poster-frame generation
   MenuBarController.swift            Menu-bar item
   Support.swift                      Shared animation helpers
   VideoWallpaper.swift               Looping video playback (AVFoundation)
   *Wallpaper.swift                   The animated scenes (SwiftUI Canvas)
 ```
+
+See `APP_STORE_AND_MARKETING.md` for the roadmap to a shippable release.
 
 Each scene is a SwiftUI `Canvas` driven by `TimelineView(.animation)`, with a
 small simulation class stepped by elapsed time. To add a new wallpaper: add a
